@@ -14,10 +14,11 @@ function divide(a, b) {
     return a / b;
 }
 
-const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+const DIGITS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const OPERATORS = ["+", "-", "/", "*", "="];
 const CONTROLS = ["AC"];
 
+const numpad = document.querySelector("#numpad");
 const display = document.querySelector("#display");
 const digits = document.querySelector("#digits");
 const operators = document.querySelector("#operators");
@@ -31,7 +32,7 @@ function populateButtons(container, values) {
     }
 }
 
-display.textContent = "2*2";
+display.textContent = "";
 populateButtons(digits, DIGITS);
 populateButtons(operators, OPERATORS);
 populateButtons(controls, CONTROLS);
@@ -50,3 +51,37 @@ function operate(a, b, operator) {
         return null;
     }
 }
+
+let operand1 = "";
+let operand2 = "";
+let operator = "";
+
+function handleInput(e) {
+    const value = e.target.textContent;
+
+    if (DIGITS.includes(value)) {
+        if (!operator) {
+            operand1 += value;
+        } else {
+            operand2 += value;
+        }
+        display.textContent += value;
+    } else if (OPERATORS.includes(value)) {
+        if (!operator) {
+            operator = value;
+            display.textContent += value;
+        } else if (value == "=") {
+            operand1 = operate(operand1, operand2, operator);
+            operand2 = "";
+            operator = "";
+            display.textContent = operand1;
+        }
+    } else if (CONTROLS.includes(value)) {
+        if (value == "AC") {
+            operand1 = operand2 = operator = "";
+            display.textContent = "";
+        }
+    }
+}
+
+numpad.addEventListener("click", handleInput);
