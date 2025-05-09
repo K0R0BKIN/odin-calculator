@@ -35,3 +35,18 @@ display.textContent = "2*2";
 populateButtons(digits, DIGITS);
 populateButtons(operators, OPERATORS);
 populateButtons(controls, CONTROLS);
+
+function operate(a, b, operator) {
+    [a, b] = [+a, +b];
+    if (operator == "+") {
+        return add(a, b);
+    } else if (operator == "-") {
+        return subtract(a, b);
+    } else if (operator == "/") {
+        return divide(a, b);
+    } else if (operator == "*") {
+        return multiply(a, b);
+    } else {
+        return null;
+    }
+}
