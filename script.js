@@ -61,24 +61,46 @@ function handleInput(e) {
 
     if (DIGITS.includes(value)) {
         if (!operator) {
+            // _ (2)
             operand1 += value;
+            // 2
         } else {
+            // 2 + (2)
             operand2 += value;
+            // 2 + 2
         }
         display.textContent += value;
     } else if (OPERATORS.includes(value)) {
         if (!operator) {
-            operator = value;
-            display.textContent += value;
-        } else if (value == "=") {
-            operand1 = operate(operand1, operand2, operator);
+            if (value != "=") {
+                // 2 (+)
+                operator = value;
+                // 2 +
+                display.textContent += value;
+            }
+        } else {
+            // 2 + 2 (+/=)
+            const result = operate(operand1, operand2, operator);
+            operand1 = result;
             operand2 = "";
-            operator = "";
             display.textContent = operand1;
+            if (value == "=") {
+                // 2 + 2 (=)
+                operator = "";
+                // 4
+            } else {
+                // 2 + 2 (+)
+                operator = value;
+                // 4 +
+                display.textContent += value;
+            }
         }
     } else if (CONTROLS.includes(value)) {
+        // 2 +
         if (value == "AC") {
+            // 2 + (AC)
             operand1 = operand2 = operator = "";
+            // _
             display.textContent = "";
         }
     }
