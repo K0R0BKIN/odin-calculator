@@ -57,24 +57,33 @@ function operate(a, b, operator) {
 let operand1 = "";
 let operand2 = "";
 let operator = "";
+let result = "";
 
 function handleInput(e) {
     const value = e.target.textContent;
 
     if (DIGITS.includes(value)) {
         if (!operator) {
-            // _ (2)
-            operand1 += value;
-            // 2
+            if (!result) {
+                // _ (2)
+                operand1 += value;
+                display.textContent += value;
+                // 2
+            } else {
+                // 4 (2)
+                operand1 = value;
+                result = "";
+                display.textContent = operand1;
+            }
         } else {
             // 2 + (2)
             operand2 += value;
+            display.textContent += value;
             // 2 + 2
         }
-        display.textContent += value;
     } else if (OPERATORS.includes(value)) {
         if (!operator) {
-            if (value != "=") {
+            if (value != "=" && operand1) {
                 // 2 (+)
                 operator = value;
                 // 2 +
@@ -95,13 +104,14 @@ function handleInput(e) {
                 if (operator == "/" && operand2 == "0") {
                     // 2 / 0 (=)
                     operand1 = operand2 = operator = "";
-                    display.textContent = "dude...";
+                    result = "dude...";
+                    display.textContent = result;
                 } else {
                     // 2 + 2
-                    const result = operate(operand1, operand2, operator);
+                    result = operate(operand1, operand2, operator);
                     operand1 = result;
                     operand2 = "";
-                    display.textContent = operand1;
+                    display.textContent = result;
                     if (value == "=") {
                         // 2 + 2 (=)
                         operator = "";
