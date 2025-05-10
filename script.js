@@ -81,27 +81,37 @@ function handleInput(e) {
                 display.textContent += value;
             }
         } else {
-            if (operator ==  "/" && operand2 == "0") {
-                // 2 / 0 (=)
-                operand1 = "";
-                operand2 = "";
-                operator = "";
-                display.textContent = "dude...";
-            } else {
-                // 2 + 2 (+/=)
-                const result = operate(operand1, operand2, operator);
-                operand1 = result;
-                operand2 = "";
-                display.textContent = operand1;
-                if (value == "=") {
-                    // 2 + 2 (=)
-                    operator = "";
-                    // 4
-                } else {
-                    // 2 + 2 (+)
+            if (!operand2) {
+                if (value != "=") {
+                    // 2 + (/)
                     operator = value;
-                    // 4 +
-                    display.textContent += value;
+                    display.textContent = display.textContent.slice(0, -1) + value;
+                } else {
+                    // 2 + (=)
+                    operator = "";
+                    display.textContent = display.textContent.slice(0, -1);
+                }
+            } else {
+                if (operator == "/" && operand2 == "0") {
+                    // 2 / 0 (=)
+                    operand1 = operand2 = operator = "";
+                    display.textContent = "dude...";
+                } else {
+                    // 2 + 2
+                    const result = operate(operand1, operand2, operator);
+                    operand1 = result;
+                    operand2 = "";
+                    display.textContent = operand1;
+                    if (value == "=") {
+                        // 2 + 2 (=)
+                        operator = "";
+                        // 4
+                    } else {
+                        // 2 + 2 (+)
+                        operator = value;
+                        // 4 +
+                        display.textContent += value;
+                    }
                 }
             }
         }
