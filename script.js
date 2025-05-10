@@ -39,17 +39,19 @@ populateButtons(controls, CONTROLS);
 
 function operate(a, b, operator) {
     [a, b] = [+a, +b];
+    let result;
     if (operator == "+") {
-        return add(a, b);
+        result = add(a, b);
     } else if (operator == "-") {
-        return subtract(a, b);
+        result = subtract(a, b);
     } else if (operator == "/") {
-        return divide(a, b);
+        result = divide(a, b);
     } else if (operator == "*") {
-        return multiply(a, b);
+        result = multiply(a, b);
     } else {
         return null;
     }
+    return Number(result.toFixed(4));
 }
 
 let operand1 = "";
